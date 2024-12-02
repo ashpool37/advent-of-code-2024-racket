@@ -7,7 +7,7 @@
 (define (string->numbers str)
   (map string->number (string-split str)))
 
-(define (levels-safe? levels trend-before)
+(define (levels-safe? levels [trend-before 'trend-unknown])
   (match levels
     [(list) #t]
     [(list _) #t]
@@ -24,28 +24,17 @@
             (<= (abs step) 3)
             (levels-safe? tail trend)))]))
 
-(define report%
-  (class object%
-    (init-field (levels (list)))
-    (define/public (safe?)
-      (levels-safe? (get-field levels this) 'trend-unknown))
-    (define/public (dampened-safe?)
-      (or (send this safe?)
-          (let ([levels (get-field levels this)])
-            (for/or ([index (in-range (length levels))])
-              (levels-safe? (type:->list (seq:remove-at index levels))
-                            'trend-unknown)))))
-    (super-new)))
-
-(define (string->report str)
-  (new report% [levels (string->numbers str)]))
+(define (levels-dampened-safe? levels)
+  (or (levels-safe? levels)
+      (for/or ([index (in-range (length levels))])
+        (levels-safe? (type:->list (seq:remove-at index levels))))))
 
 (define (main)
   (seq:length
    (seq:filter
     identity
     (seq:map
-     (compose (λ (r) (send r dampened-safe?)) string->report)
+     (compose levels-dampened-safe? string->numbers)
      (type:->stream (in-lines))))))
 
 (with-input-from-file "input" main)
