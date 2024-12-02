@@ -15,10 +15,9 @@
 
 (define (main)
   (let*
-      ([pairs (seq:map (compose type:->vector string->numbers)
-                       (type:->stream (in-lines)))]
-       [ids-left (seq:map (curryr vector-ref 0) pairs)]
-       [ids-right (seq:map (curryr vector-ref 1) pairs)]
+      ([pairs (seq:map string->numbers (type:->stream (in-lines)))]
+       [ids-left (seq:map first pairs)]
+       [ids-right (seq:map second pairs)]
        [ids-right-counts (item-counts ids-right)])
     (for/sum ([id ids-left])
       (* id (hash-ref ids-right-counts id 0)))))
