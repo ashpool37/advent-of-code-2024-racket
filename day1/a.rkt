@@ -13,7 +13,7 @@
       ([pairs (seq:map string->numbers (type:->stream (in-lines)))]
        [ids-left (ord:sort ord:< (seq:map first pairs))]
        [ids-right (ord:sort ord:< (seq:map second pairs))]
-       [distances (seq:zip-with (compose abs -) ids-left ids-right)])
+       [distances (seq:map (compose abs -) ids-left ids-right)])
     (seq:foldl + 0 distances)))
 
 (with-input-from-file "input" main)
