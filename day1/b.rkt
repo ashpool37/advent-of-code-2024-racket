@@ -18,8 +18,9 @@
       ([pairs (seq:map string->numbers (type:->stream (in-lines)))]
        [ids-left (seq:map first pairs)]
        [ids-right (seq:map second pairs)]
-       [ids-right-counts (item-counts ids-right)])
-    (for/sum ([id ids-left])
-      (* id (hash-ref ids-right-counts id 0)))))
+       [ids-right-counts (item-counts ids-right)]
+       [id-score (λ (id) (* id (hash-ref ids-right-counts id 0)))]
+       [ids-left-scores (seq:map id-score ids-left)])
+    (seq:foldl + 0 ids-left-scores)))
 
 (with-input-from-file "input" main)
