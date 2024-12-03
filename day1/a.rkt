@@ -3,8 +3,7 @@
 (require
  (prefix-in seq: seq)
  (prefix-in type: relation/type)
- (prefix-in ord: relation/order)
- (prefix-in comp: relation/composition))
+ (prefix-in ord: relation/order))
 
 (define (string->numbers str)
   (map string->number (string-split str)))
@@ -15,6 +14,6 @@
        [ids-left (ord:sort ord:< (seq:map first pairs))]
        [ids-right (ord:sort ord:< (seq:map second pairs))]
        [distances (seq:zip-with (compose abs -) ids-left ids-right)])
-    (comp:sum distances)))
+    (seq:foldl + 0 distances)))
 
 (with-input-from-file "input" main)
