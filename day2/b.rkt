@@ -30,11 +30,7 @@
         (levels-safe? (type:->list (seq:remove-at index levels))))))
 
 (define (main)
-  (seq:length
-   (seq:filter
-    identity
-    (seq:map
-     (compose levels-dampened-safe? string->numbers)
-     (type:->stream (in-lines))))))
+  (seq:length (seq:filter (compose levels-dampened-safe? string->numbers)
+                          (type:->stream (in-lines)))))
 
 (with-input-from-file "input" main)

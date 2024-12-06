@@ -25,11 +25,7 @@
             (levels-safe? tail trend)))]))
 
 (define (main)
-  (seq:length
-   (seq:filter
-    identity
-    (seq:map
-     (compose levels-safe? string->numbers)
-     (type:->stream (in-lines))))))
+  (seq:length (seq:filter (compose levels-safe? string->numbers)
+                          (type:->stream (in-lines)))))
 
 (with-input-from-file "input" main)
