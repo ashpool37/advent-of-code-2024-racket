@@ -1,4 +1,4 @@
-#lang racket
+#lang at-exp racket
 
 ;; (require graph)
 (require relation/type
@@ -8,15 +8,14 @@
 
 (define (read-printing-rule)
   (let ([match-result
-         (regexp-try-match #px"\\s*(\\d{2})\\|(\\d{2})"
+         (regexp-try-match @pregexp{^\s*(\d{2})\|(\d{2})}
                            (current-input-port))])
     (if match-result (map bytes->number (cdr match-result))
         #f)))
 
 (define (read-update)
-  (let ([match-result
-         (regexp-try-match #px"\\s*((?:\\d{2},)*\\d{2})"
-                           (current-input-port))])
+  (let ([match-result (regexp-try-match @pregexp{^\s*((?:\d{2},)*\d{2})}
+                                        (current-input-port))])
     (if match-result
         (map
          string->number
