@@ -2,8 +2,7 @@
 
 (require
  (prefix-in seq: seq)
- (prefix-in type: relation/type)
- (prefix-in ord: relation/order))
+ (prefix-in type: relation/type))
 
 (define (between? value lbound ubound)
   (and (<= lbound value) (< value ubound)))
