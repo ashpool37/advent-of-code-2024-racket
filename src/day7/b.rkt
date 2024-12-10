@@ -41,7 +41,7 @@
     (define/public (get-result) equation-result)
     (define/public (satisfiable?)
       (cond [(null? (cdr equation-operands))
-             (equal? equation-result (first equation-operands))]
+             (equal? equation-result (next-operand))]
             [(nan? equation-result) #f]
             [(not (positive? equation-result)) #f]
             [(not (integer? equation-result)) #f]
