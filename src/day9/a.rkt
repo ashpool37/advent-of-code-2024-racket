@@ -1,7 +1,6 @@
 #lang racket
 
-(require racket/generator
-         relation/type)
+(require racket/generator)
 
 (define (port->fs [in (current-input-port)])
   (define next-block
@@ -12,9 +11,7 @@
        (for ([c (in-input-port-chars in)]
              #:break (char=? c #\newline))
          (for ([_ (in-range (string->number (string c)))])
-           (yield (if is-free-space
-                      'free-space
-                      file-id)))
+           (yield (if is-free-space 'free-space file-id)))
          (unless is-free-space (set! file-id (add1 file-id)))
          (set! is-free-space (not is-free-space))))))
   (list->vector (for/list ([block (in-producer next-block (void))]) block)))

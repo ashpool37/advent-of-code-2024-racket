@@ -1,7 +1,6 @@
 #lang racket
 
-(require racket/generator
-         relation/type)
+(require racket/generator)
 
 (struct fs-file (id size) #:transparent)
 
