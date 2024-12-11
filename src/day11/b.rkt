@@ -12,12 +12,6 @@
             (string->number (substring number-str number-strlen-half)))
       #f))
 
-(define/memoize (blink-once stone)
-  (match stone
-    [0 (stream 1)]
-    [(app even-length-number-halves (? stream? halves)) halves]
-    [_ (stream (* stone 2024))]))
-
 (define/memoize (blink n stone)
   (if (= 0 n)
       1
